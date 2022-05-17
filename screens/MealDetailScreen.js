@@ -1,16 +1,40 @@
-import { Text, View, ScrollView, Image, StyleSheet } from "react-native";
+import { useLayoutEffect } from "react";
+import {
+  Text,
+  View,
+  ScrollView,
+  Image,
+  StyleSheet,
+  Button,
+} from "react-native";
 import Subtitle from "../components.js/MealDetail/Subtitle";
 import List from "../components.js/MealDetail/List";
 import MealDetails from "../components.js/MealDetails";
 
 import { MEALS } from "../data/dummy-data";
+import IconButton from "../components.js/IconButton";
 
 //automatically receives route and navigation prop as a registered Screen
 //Route prop gives us the params, which gives us the mealId from the params set in the navigate method in mealItem.js.
-function MealDetailScreen({ route }) {
+function MealDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId); //searches through MEALS and compares meal.id to the id found form params contained in the mealId constant.
+
+  function headerButtonPressHandler() {
+    console.log("pressed!");
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          // <Button title="favorite" onPress={headerButtonPressHandler}></Button>
+          <IconButton onPress={headerButtonPressHandler} />
+        );
+      },
+    });
+  }, [navigation, headerButtonPressHandler]);
 
   // image source note: use uri if it is a networked source. Also must style an image if it is networked in order for it to appear.
   return (
