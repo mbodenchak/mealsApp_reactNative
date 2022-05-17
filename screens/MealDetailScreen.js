@@ -30,7 +30,11 @@ function MealDetailScreen({ route, navigation }) {
       headerRight: () => {
         return (
           // <Button title="favorite" onPress={headerButtonPressHandler}></Button>
-          <IconButton onPress={headerButtonPressHandler} />
+          <IconButton
+            onPress={headerButtonPressHandler}
+            color="white"
+            icon="star"
+          />
         );
       },
     });
