@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -13,32 +13,43 @@ import MealDetails from "../components.js/MealDetails";
 
 import { MEALS } from "../data/dummy-data";
 import IconButton from "../components.js/IconButton";
+import { FavoritesContext } from "../store/context/favorites-context";
 
 //automatically receives route and navigation prop as a registered Screen
 //Route prop gives us the params, which gives us the mealId from the params set in the navigate method in mealItem.js.
 function MealDetailScreen({ route, navigation }) {
+  const favoriteMealsCtx = useContext(FavoritesContext);
+
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId); //searches through MEALS and compares meal.id to the id found form params contained in the mealId constant.
 
-  function headerButtonPressHandler() {
-    console.log("pressed!");
+  const mealIsFavorite = favoriteMealsCtx.ids.includes(mealId);
+
+  function changeFavoriteStatusHandler() {
+    if (mealIsFavorite) {
+      favoriteMealsCtx.removeFavorite(mealId);
+      console.log("removed from favorite meals!");
+    } else {
+      favoriteMealsCtx.addFavorite(mealId);
+      console.log("added to favorite meals!");
+    }
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          // <Button title="favorite" onPress={headerButtonPressHandler}></Button>
+          // <Button title="favorite" onPress={changeFavoriteStatusHandler}></Button>
           <IconButton
-            onPress={headerButtonPressHandler}
+            onPress={changeFavoriteStatusHandler}
             color="white"
-            icon="star"
+            icon={mealIsFavorite ? "star" : "star-outline"}
           />
         );
       },
     });
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, changeFavoriteStatusHandler]);
 
   // image source note: use uri if it is a networked source. Also must style an image if it is networked in order for it to appear.
   return (
