@@ -7,12 +7,12 @@ import {
   StyleSheet,
   Button,
 } from "react-native";
-import Subtitle from "../components.js/MealDetail/Subtitle";
-import List from "../components.js/MealDetail/List";
-import MealDetails from "../components.js/MealDetails";
+import Subtitle from "../components/MealDetail/Subtitle";
+import List from "../components/MealDetail/List";
+import MealDetails from "../components/MealDetails";
 
 import { MEALS } from "../data/dummy-data";
-import IconButton from "../components.js/IconButton";
+import IconButton from "../components/IconButton";
 import { FavoritesContext } from "../store/context/favorites-context";
 
 //automatically receives route and navigation prop as a registered Screen
